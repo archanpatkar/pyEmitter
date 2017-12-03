@@ -2,7 +2,7 @@ import unittest
 from Tests.emitter_test import TestEventEmitter
 from Tests.asyncemitter_test import TestAsyncEmitter
 
-print("Test Runner Started");
+print("Test Runner Started \n");
 
 def getTestCases():
     EventEmitter = unittest.TestLoader().loadTestsFromTestCase(TestEventEmitter);
@@ -10,6 +10,5 @@ def getTestCases():
     return [EventEmitter,AsyncEmitter];
 
 #Running Tests
-print("Running Tests")
 for cases in getTestCases():
     unittest.TextTestRunner(verbosity=2).run(cases);

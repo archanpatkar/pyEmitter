@@ -4,24 +4,23 @@ from pyEmitter.asyncemitter import AsyncEmitter
 
 class TestAsyncEmitter(unittest.TestCase):
 
+    def setUp(self):
+        self.emitter = AsyncEmitter();
+
     def test_is_async(self):
-        self.assertIsInstance(AsyncEmitter(),Thread);
+        self.assertIsInstance(self.emitter,Thread);
 
     def test_on(self):
-        emitter = AsyncEmitter();
-        self.assertIsNone(emitter.on("Test On", lambda *x: print(x)));
+        self.assertIsNone(self.emitter.on("Test On", lambda *x: print(x)));
 
     def test_emit(self):
-        emitter = AsyncEmitter();
-        self.assertIsNone(emitter.emit("Test Emit","Successful"));
+        self.assertIsNone(self.emitter.emit("Test Emit","Successful"));
 
     def test_pubsub(self):
-        emitter = AsyncEmitter();
-        emitter.on("Test Emit",lambda *x: self.assertEqual(*x, "Successful"));
-        emitter.emit("Test Emit","Successful");
+        self.emitter.on("Test Emit",lambda *x: self.assertEqual(*x, "Successful"));
+        self.emitter.emit("Test Emit","Successful");
 
     def test_varargs(self):
-        emitter = AsyncEmitter();
         expectedTuple = ("Successful","Hello",)
-        emitter.on("Test Emit",lambda x: self.assertTupleEqual(x , expectedTuple));
-        emitter.emit("Test Emit","Successful","Hello");
+        self.emitter.on("Test Var Args",lambda x: self.assertTupleEqual(x , expectedTuple));
+        self.emitter.emit("Test Var Args","Successful","Hello");
