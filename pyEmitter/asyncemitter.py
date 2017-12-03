@@ -1,5 +1,5 @@
 from threading import Thread
-from queue import TSQueue
+from TSQueue import TSQueue
 
 class AysncEmitter(Thread):
     def __init__(self):
