@@ -7,6 +7,10 @@ class AysncEmitter(Thread):
         self.setDaemon(True);
         queue = TSQueue();
         self.emitter = {};
+        self.start();
+
+    def run(self):
+        self.EventLoop();
 
     def on(self,event,f):
         if(self.emitter.get(event) == None):
