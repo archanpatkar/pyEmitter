@@ -1,6 +1,4 @@
-from threading import Thread
-
-class EventEmitter(Thread):
+class EventEmitter:
     def __init__(self):
         self.emitter = {}
 
