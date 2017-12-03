@@ -1,7 +1,7 @@
 from threading import Thread
 from pyEmitter.TSQueue import TSQueue
 
-class AysncEmitter(Thread):
+class AsyncEmitter(Thread):
     def __init__(self):
         Thread.__init__(self);
         self.setDaemon(True);
@@ -29,4 +29,4 @@ class AysncEmitter(Thread):
             if(consumers == None):
                 pass
             else:
-                [consumer(*Event[1]) for consumer in consumers]
+                [consumer(Event[1]) for consumer in consumers]
