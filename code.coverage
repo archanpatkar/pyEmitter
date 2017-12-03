@@ -1,6 +1,7 @@
 Name                         Stmts   Miss  Cover
 ------------------------------------------------
-Tests/__init__.py                0      0   100%
+TestRunner.py                    9      0   100%
+Tests/__init__.py                1      0   100%
 Tests/asyncemitter_test.py      19      0   100%
 Tests/emitter_test.py           15      0   100%
 pyEmitter/TSQueue.py            18      0   100%
