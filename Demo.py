@@ -7,4 +7,8 @@ emitter = AysncEmitter();
 
 emitter.on("one",lambda *x: print(x));
 
-emitter.emit("one");
+emitter.emit("one","Hello");
+
+
+while True:
+    pass

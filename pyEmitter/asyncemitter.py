@@ -1,11 +1,11 @@
 from threading import Thread
-from TSQueue import TSQueue
+from pyEmitter.TSQueue import TSQueue
 
 class AysncEmitter(Thread):
     def __init__(self):
         Thread.__init__(self);
         self.setDaemon(True);
-        queue = TSQueue();
+        self.queue = TSQueue();
         self.emitter = {};
         self.start();
 
@@ -25,8 +25,8 @@ class AysncEmitter(Thread):
     def EventLoop(self):
         while True:
             Event = self.queue.dequeue();
-            consumers = self.emitter.get(Event(0))
+            consumers = self.emitter.get(Event[0])
             if(consumers == None):
                 pass
             else:
-                [consumer(Event(1)) for consumer in consumers]
+                [consumer(*Event[1]) for consumer in consumers]
