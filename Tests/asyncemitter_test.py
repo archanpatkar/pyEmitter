@@ -5,7 +5,7 @@ from pyEmitter.asyncemitter import AsyncEmitter
 class TestAsyncEmitter(unittest.TestCase):
 
     def setUp(self):
-        self.emitter = AsyncEmitter();
+        self.emitter = AsyncEmitter(isDaemon=True);
 
     def test_is_async(self):
         self.assertIsInstance(self.emitter,Thread);
@@ -17,10 +17,5 @@ class TestAsyncEmitter(unittest.TestCase):
         self.assertIsNone(self.emitter.emit("Test Emit","Successful"));
 
     def test_pubsub(self):
-        self.emitter.on("Test Emit",lambda *x: self.assertEqual(*x, "Successful"));
+        self.emitter.on("Test Emit",lambda x: self.assertEqual(x, "Successful"));
         self.emitter.emit("Test Emit","Successful");
-
-    def test_varargs(self):
-        expectedTuple = ("Successful","Hello",)
-        self.emitter.on("Test Var Args",lambda x: self.assertTupleEqual(x , expectedTuple));
-        self.emitter.emit("Test Var Args","Successful","Hello");

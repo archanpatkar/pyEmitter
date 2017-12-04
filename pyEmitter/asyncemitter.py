@@ -2,9 +2,9 @@ from threading import Thread
 from pyEmitter.TSQueue import TSQueue
 
 class AsyncEmitter(Thread):
-    def __init__(self):
+    def __init__(self,isDaemon=False):
         Thread.__init__(self);
-        self.setDaemon(True);
+        self.setDaemon(isDaemon);
         self.queue = TSQueue();
         self.emitter = {};
         self.start();
@@ -20,7 +20,7 @@ class AsyncEmitter(Thread):
             self.emitter[event].append(f)
 
     def emit(self,event,*args):
-        self.queue.enqueue((event,args));
+        self.queue.enqueue((event,*args));
 
     def EventLoop(self):
         while True:
@@ -29,4 +29,5 @@ class AsyncEmitter(Thread):
             if(consumers == None):
                 pass
             else:
-                [consumer(Event[1]) for consumer in consumers]
+                args = Event[1:];
+                [consumer(*args) for consumer in consumers]
