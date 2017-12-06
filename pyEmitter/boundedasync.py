@@ -2,26 +2,28 @@ from threading import Thread
 from pyEmitter.Event import Event
 from pyEmitter.TSQueue import TSQueue
 
-class AsyncEmitter(Thread):
-    def __init__(self,isDaemon=False):
+class BoundedAsyncEmitter(Thread):
+    def __init__(self,*events,isDaemon=False):
         Thread.__init__(self);
         self.setDaemon(isDaemon);
         self.queue = TSQueue();
         self.emitter = {};
+        [self.addEvent(event) for event in events]
         self.start();
+
+    def addEvent(self,event):
+        self.emitter[event] = [];
 
     def run(self):
         self.EventLoop();
 
     def on(self,event,f):
-        if(self.emitter.get(event) == None):
-            self.emitter[event] = []
-            self.emitter[event].append(f)
-        else:
-            self.emitter[event].append(f)
+        if(event in self.emitter):
+            self.emitter[event].append(f);
 
     def emit(self,event,*args):
-        self.queue.enqueue(Event(name = event,value = args));
+        if(event in self.emitter):
+            self.queue.enqueue(Event(name = event,value = args));
 
     def EventLoop(self):
         while True:

@@ -1,1 +1,1 @@
-__all__=["emitter","asyncemitter"]
+__all__=["emitter","asyncemitter","boundedemitter"]
