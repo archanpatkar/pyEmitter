@@ -1,19 +1,8 @@
 import uuid
 
-default = None;
-
 class EventEmitter:
-    def __init__(self,context = False,globalContext = None):
-        if(context):
-            self.context = {};
-            self.UUID = uuid.uuid4();
-            global default;
-            if default == None:
-                default = self;
-            if globalContext == None:
-                self.globalContext = default;
-            elif isinstance(globalContext,EventEmitter):
-                self.globalContext = globalContext;
+    def __init__(self):
+        self.UUID = uuid.uuid4();
         self.emitter = {};
 
     def on(self,event,f):
@@ -28,7 +17,4 @@ class EventEmitter:
         if(consumers == None):
             pass
         else:
-            if(hasattr(self,"context")):
-                [consumer(self.globalContext.context,self.context,*args) for consumer in consumers]
-            else:
-                [consumer(self.globalContext.context,*args) for consumer in consumers]
+            [consumer(self.UUID,*args) for consumer in consumers]

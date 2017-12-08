@@ -57,7 +57,7 @@ def ContextMutator(namespace,context,*x):
 def m(namespace,context,*x):
     context["My2"] = x;
 
-def globalContext(context,*x):
+def globalContext(uuid,context,*x):
     context["global"] = "This is Amazing!";
 
 default.on("Change Context",globalContext);
@@ -65,6 +65,8 @@ default.on("Change Context",globalContext);
 default.emit("Change Context")
 
 e = EventEmitter(context=True);
+
+# e.change < globalContext
 
 e.on("hello",lambda g,context,*x: print("Namespace :",g,"\nContext :",context,"\nArgs :",x)); # The handler should accept varargs to get data if sent by the emitter
 e.on("hello",ContextMutator);

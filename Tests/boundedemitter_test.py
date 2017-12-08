@@ -1,7 +1,7 @@
 import unittest
-from pyEmitter.emitter import EventEmitter
+from pyEmitter.boundedemitter import BoundedEmitter
 
-class TestEventEmitter(unittest.TestCase):
+class TestBoundedEmitter(unittest.TestCase):
 
     def setUp(self):
         self.emitter = EventEmitter();

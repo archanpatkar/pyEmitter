@@ -1,29 +1,25 @@
 from threading import Thread
+from pyEmitter.boundedemitter import BoundedEmitter
 from pyEmitter.Event import Event
 from pyEmitter.TSQueue import TSQueue
+import pyEmitter.Noise import EventCannotBeEmitted
 
-class BoundedAsyncEmitter(Thread):
-    def __init__(self,*events,isDaemon=False):
+class BoundedAsyncEmitter(Thread,BoundedEmitter):
+    def __init__(self,*events,noisy=False,isDaemon=False):
         Thread.__init__(self);
+        BoundedEmitter.__init__(*events,noisy=noisy);
         self.setDaemon(isDaemon);
         self.queue = TSQueue();
-        self.emitter = {};
-        [self.addEvent(event) for event in events]
         self.start();
-
-    def addEvent(self,event):
-        self.emitter[event] = [];
 
     def run(self):
         self.EventLoop();
 
-    def on(self,event,f):
-        if(event in self.emitter):
-            self.emitter[event].append(f);
-
     def emit(self,event,*args):
         if(event in self.emitter):
             self.queue.enqueue(Event(name = event,value = args));
+        elif(self.noisy):
+            raise EventCannotBeEmitted
 
     def EventLoop(self):
         while True:
@@ -32,4 +28,4 @@ class BoundedAsyncEmitter(Thread):
             if(consumers == None):
                 pass
             else:
-                [consumer(*Event.value) for consumer in consumers]
+                [consumer(self.UUID,*Event.value) for consumer in consumers]
